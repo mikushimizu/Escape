@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     
     void Start()
     {
-        CameraScript cameraScript;
+
     }
 
     void Update()

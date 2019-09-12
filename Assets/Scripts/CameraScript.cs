@@ -5,99 +5,129 @@ using UnityEngine.UI;
 
 public class CameraScript : MonoBehaviour
 {
-    Vector3 rotationAngle;
     GameObject clickedGameObject;
+    Vector3 rotationAngle;
     Vector3 defaultPosition;
-    public static string CameraStatus; //Default, Zoom
+    Vector3 DistCamToObj;
+    float _DistCamToObjCamToObj;
+    public static string CameraStatus; //Default, Zoom 視点状態の管理変数
 
     void Start()
     {
         rotationAngle = new Vector3(0.0f, 0.0f, 0.0f);
-        CameraStatus = "Default";
         defaultPosition = this.transform.position;
+        _DistCamToObjCamToObj = 2.4f;
+        CameraStatus = "Default";
     }
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if(CameraStatus == "Default")
         {
-            clickedGameObject = null;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit = new RaycastHit();
-
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                clickedGameObject = hit.collider.gameObject;
-                //Debug.Log(clickedGameObject.name + ", position:" + clickedGameObject.transform.position);
-                // クリックしたオブジェクトの情報(名前、位置など)
-
-                if(CameraStatus == "Default")
-                {
-                    //東西南北によってカメラとオブジェクトの位置関係が変わる
-                    if (clickedGameObject.tag == "Furniture_North")
-                    {
-                        ZoomMove(0, 0, -2.4f);
-                    }
-                    if (clickedGameObject.tag == "Furniture_West")
-                    {
-                        ZoomMove(1.4f, 0, 0);
-                    }
-                    if (clickedGameObject.tag == "Furniture_East")
-                    {
-                        ZoomMove(-1.4f, 0, 0);
-                    }
-                    if (clickedGameObject.tag == "Furniture_South")
-                    {
-                        ZoomMove(0, 0, 2.4f);
-                    }
-                }
-                if(CameraStatus == "Zoom")
-                {
-                    Debug.Log(clickedGameObject.name);
-                    int count = 0;
-                    GameObject watchedFurniture = clickedGameObject;
-                    foreach(Transform child in watchedFurniture.transform)
-                    {
-                        count++;
-                        Debug.Log("Child[" + count + "]" + child.name);
-                        child.gameObject.GetComponent<BoxCollider>().enabled = true;
-                    }
-                    if (clickedGameObject.tag == "Item")
-                    {
-                        clickedGameObject.SetActive(false);
-                        Debug.Log(clickedGameObject);
-                    }
-                }
+                RotationMove(90.0f); //左に90度回転
             }
-            
-        }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) == true)
-        {
-            RotationMove(90.0f);
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                RotationMove(-90.0f); //右に90度回転
+            }
+
+            if (Input.GetMouseButton(0))
+            {
+                Ray();
+                ZoomMove();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if(CameraStatus == "Zoom")
         {
-            RotationMove(-90.0f);
+            if (Input.GetMouseButton(0))
+            {
+                Ray();
+                ZoomMove();
+                ItemCheck();
+                ItemGet();
+            }
+        }
+    }
+
+    void Ray()
+    {
+        clickedGameObject = null;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            clickedGameObject = hit.collider.gameObject;
+            //Debug.Log(clickedGameObject.name + ", position:" + clickedGameObject.transform.position);
         }
     }
 
     void RotationMove(float rotationAngleY)
     {
-        Debug.Log("Input Key   rotationAngle:" + rotationAngle);
-        rotationAngle.y += rotationAngleY; //左隣の壁を向く
+        //Debug.Log("Input Key   rotationAngle:" + rotationAngle);
+        rotationAngle.y += rotationAngleY;
         this.transform.rotation = Quaternion.Euler(rotationAngle);
     }
 
-    void ZoomMove(float distX, float distY, float distZ)
+    void ZoomMove()
     {
-        CameraStatus = "Zoom";
-        this.transform.position = clickedGameObject.transform.position + new Vector3(distX, distY, distZ);
+        if (clickedGameObject.tag == "Furniture_North")
+        {
+            DistCamToObj = new Vector3(0, 0, -_DistCamToObjCamToObj);
+            CameraStatus = "Zoom";
+            this.transform.position = clickedGameObject.transform.position + DistCamToObj;
+        }
+        else if (clickedGameObject.tag == "Furniture_West")
+        {
+            DistCamToObj = new Vector3(_DistCamToObjCamToObj, 0, 0);
+            CameraStatus = "Zoom";
+            this.transform.position = clickedGameObject.transform.position + DistCamToObj;
+        }
+        else if (clickedGameObject.tag == "Furniture_East")
+        {
+            DistCamToObj = new Vector3(-_DistCamToObjCamToObj, 0, 0);
+            CameraStatus = "Zoom";
+            this.transform.position = clickedGameObject.transform.position + DistCamToObj;
+        }
+        else if (clickedGameObject.tag == "Furniture_South")
+        {
+            DistCamToObj = new Vector3(0, 0, _DistCamToObjCamToObj);
+            CameraStatus = "Zoom";
+            this.transform.position = clickedGameObject.transform.position + DistCamToObj;
+        }
+        else
+        {
+        }
     }
 
     public void ReturnMove()
     {
         CameraStatus = "Default";
         this.transform.position = defaultPosition;
+    }
+
+    void ItemCheck()
+    {
+        
+        int count = 0;
+        GameObject watchedFurniture = clickedGameObject;
+        foreach (Transform child in watchedFurniture.transform)
+        {
+            count++;
+            Debug.Log("Child[" + count + "]" + child.name);
+            child.gameObject.GetComponent<BoxCollider>().enabled = true;
+        }
+    }
+
+    void ItemGet()
+    {
+        if (clickedGameObject.tag == "Item")
+        {
+            clickedGameObject.SetActive(false);
+            Debug.Log(clickedGameObject);
+        }
     }
 }
