@@ -241,7 +241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193733542}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.5319824, y: 0.529, z: -0.020999908}
+  m_LocalPosition: {x: -0.5319824, y: -0.039, z: -0.020999908}
   m_LocalScale: {x: 0.5000001, y: 0.050000027, z: 0.7}
   m_Children: []
   m_Father: {fileID: 1931744939}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 297481018}
   - component: {fileID: 297481017}
   m_Layer: 0
-  m_Name: Iten (1)
+  m_Name: Item (1)
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
