@@ -11,8 +11,6 @@ public class CameraScript : MonoBehaviour
     Vector3 DistCamToObj;
     float _DistCamToObjCamToObj;
     public static string CameraStatus; //Default, Zoom 視点状態の管理変数
-    //[shimi]このString型に直接文字列を打ち込んでるダサい状態管理をどうにかしたい
-    //[shimi]クラス？enum？
 
     void Start()
     {
