@@ -191,4 +191,10 @@ public class CameraScript : MonoBehaviour
             Debug.Log(clickedGameObject);
         }
     }
+    
+    bool isFurniture(string tag){
+     家具系のタグなら return true;
+     家具系以外のタグなら return false
+    }
+    
 }
