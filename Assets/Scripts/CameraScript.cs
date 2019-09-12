@@ -36,6 +36,8 @@ public class CameraScript : MonoBehaviour
         //[pilkul] Vector3.zero 見たいのあったべ。それ使おう。
         rotationAngle = new Vector3(0.0f, 0.0f, 0.0f);
         defaultPosition = this.transform.position;
+        
+        //[pilkul] 定数は "const float 変数名 = 値  // 値の意味" みたいな形で宣言するのがお作法
         _DistCamToObjCamToObj = 2.4f;
         CameraStatus = "Default";
     }
