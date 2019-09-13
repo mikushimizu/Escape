@@ -9,6 +9,7 @@ TagManager:
   - Furniture_East
   - Furniture_West
   - Item
+  - Furniture
   layers:
   - Default
   - TransparentFX
