@@ -1330,7 +1330,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 946606934}
-        m_MethodName: ZoomOut
+        m_MethodName: DeleteZoomOutButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

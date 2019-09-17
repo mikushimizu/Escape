@@ -6,18 +6,16 @@ public class UIManager : MonoBehaviour
 {
     public GameObject zoomOutButton;
     PlayerCamera playerCamera;
-    private void Start()
+
+    void Start()
     {
-        playerCamera = new PlayerCamera();
-        Debug.Log(playerCamera.State);
+        playerCamera = GameObject.Find("Main Camera").GetComponent<PlayerCamera>();
     }
 
     void Update()
     {
-        Debug.Log("UIManager playerCamera.State:" + playerCamera.State);
+        Debug.Log(playerCamera + "UIManager playerCamera.State:" + playerCamera.State);
 
-        //[pilkul] 変数がグローバルである必要を感じない。Get関数とかを作って適宜持ってこれるように使用
-        //[shimi43] PlayerCameraではStateがDefault,Zoomで切り替わっているのに、UIManagerでgetしたStateが切り替わらない
         switch (playerCamera.State)
         {
             case PlayerCamera.CameraState.Default:
