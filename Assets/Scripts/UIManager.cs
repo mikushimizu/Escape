@@ -14,8 +14,6 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(playerCamera + "UIManager playerCamera.State:" + playerCamera.State);
-
         switch (playerCamera.State)
         {
             case PlayerCamera.CameraState.Default:

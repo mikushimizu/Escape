@@ -33,7 +33,6 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("PlayerCamera cameraState: " + cameraState + ", State: " + State); //確認
         switch (cameraState)
         {
             case CameraState.Default:
