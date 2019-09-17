@@ -11,14 +11,19 @@ public class PlayerCamera : MonoBehaviour
     private Vector3 direction;
     private const float distance = 2.4f; //定数 Zoom時のオブジェクトからカメラまでの距離
     private Camera cam;
-    
-    enum CameraState{
+    private CameraState cameraState;
+
+    public enum CameraState{
         Default,
         Zoom
     }
 
-    CameraState cameraState;
-    
+    public CameraState State
+    {
+        get { return cameraState; }
+        set { cameraState = value; }
+    }
+
     void Start()
     {
         rotationAngle = new Vector3(0.0f, 0.0f, 0.0f);
@@ -28,6 +33,7 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("PlayerCamera cameraState: " + cameraState + ", State: " + State); //確認
         switch (cameraState)
         {
             case CameraState.Default:
@@ -106,7 +112,7 @@ public class PlayerCamera : MonoBehaviour
         }
     }
     
-    public void Back()
+    public void ZoomOut()
     {
         cameraState = CameraState.Default;
         transform.position = defaultPosition;
@@ -127,23 +133,17 @@ public class PlayerCamera : MonoBehaviour
 
     void ObtainItem()
     {
-        //[pilkul] 分岐の可能性があるならswitch、ステートもしくはストラテジー
-        if (clickedGameObject.tag == "Item")
+        switch (clickedGameObject.tag)
         {
-            //[pilkul] 単一原則から、オブジェクトにクリックされたという通知を行い、実際の処理はアイテム側に記述すべき
-            clickedGameObject.SetActive(false);
+            case "Item":
+                //[pilkul] 単一原則から、オブジェクトにクリックされたという通知を行い、実際の処理はアイテム側に記述すべき
+                clickedGameObject.SetActive(false);
+                break;
         }
     }
     
     bool isFurniture(string tag){
-        if(tag=="Furniture_East" || tag == "Furniture_West" || tag == "Furniture_North" || tag == "Furniture_South")
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if(tag=="Furniture_East" || tag == "Furniture_West" || tag == "Furniture_North" || tag == "Furniture_South") {return true;}
+        else {return false;}
     }
-    
 }

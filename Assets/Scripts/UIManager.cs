@@ -4,24 +4,33 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject ReturnButton;
+    public GameObject zoomOutButton;
+    PlayerCamera playerCamera;
+    private void Start()
+    {
+        playerCamera = new PlayerCamera();
+        Debug.Log(playerCamera.State);
+    }
 
     void Update()
     {
-        //zoomしたとき
-        //[pilkul] 変数が義ローバルである必要を感じない。Get関数とかを作って適宜持ってこれるように使用
-        /*
-        if (CameraState.State)
+        Debug.Log("UIManager playerCamera.State:" + playerCamera.State);
+
+        //[pilkul] 変数がグローバルである必要を感じない。Get関数とかを作って適宜持ってこれるように使用
+        //[shimi43] PlayerCameraではStateがDefault,Zoomで切り替わっているのに、UIManagerでgetしたStateが切り替わらない
+        switch (playerCamera.State)
         {
-            ReturnButton.SetActive(true);
+            case PlayerCamera.CameraState.Default:
+                break;
+
+            case PlayerCamera.CameraState.Zoom:
+                zoomOutButton.SetActive(true);
+                break;
         }
-        */
-        
     }
     
-    //[pilkul] returnはね。あのね。
-    public void RunReturn()
+    public void DeleteZoomOutButton()
     {
-        ReturnButton.SetActive(false);
+        zoomOutButton.SetActive(false);
     }
 }
