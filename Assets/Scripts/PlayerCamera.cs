@@ -124,8 +124,8 @@ public class PlayerCamera : MonoBehaviour
         foreach (Transform child in watchedFurniture.transform)
         {
             count++;
-            //[pilkul] childをGameObjectで取得するのはゲロ。共通インターフェースを切ってBoxColliderを返す関数を作るべき
-            //[pilkul] => GetComponentなどの重い処理を回避できる
+            //childをGameObjectで取得しない。共通インターフェースを切ってBoxColliderを返す関数を作るべき
+            //=> GetComponentなどの重い処理を回避できる
             child.gameObject.GetComponent<BoxCollider>().enabled = true;
         }
     }
@@ -135,7 +135,7 @@ public class PlayerCamera : MonoBehaviour
         switch (clickedGameObject.tag)
         {
             case "Item":
-                //[pilkul] 単一原則から、オブジェクトにクリックされたという通知を行い、実際の処理はアイテム側に記述すべき
+                //単一原則から、オブジェクトにクリックされたという通知を行い、実際の処理はアイテム側に記述すべき
                 clickedGameObject.SetActive(false);
                 break;
         }
